@@ -1,5 +1,5 @@
 ﻿///--------------------------------------------------------------------
-///   Class:       cabInvoiceGeneratorTest
+///   Class:       CabInvoiceGenerator
 ///   Description: class for calculate total fare of car
 ///   Author:      Pranali Andre                   Date: 1/5/2020
 ///--------------------------------------------------------------------
@@ -7,9 +7,6 @@ using System;
 
 namespace cabInvoiceGenerator
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class CabInvoiceGenerator
     {
         /// <summary>
@@ -42,14 +39,20 @@ namespace cabInvoiceGenerator
         /// </summary>
         /// <param name="rides"></param>
         /// <returns></returns>
-        public double CalculateFare(Ride[] rides)
+        public InvoiceSummary CalculateFare(Ride[] rides)
         {
             double totalFare = 0;
+            int numberOfRides = 0;
+            InvoiceSummary invoiceSummary = new InvoiceSummary();
             foreach (Ride ride in rides)
             {
                 totalFare += this.CalculateFare( ride.distance, ride.time);
+                numberOfRides++;
             }
-            return totalFare;
+            invoiceSummary.TotalFare = totalFare;
+            invoiceSummary.TotalNumberOfRides = numberOfRides;
+            invoiceSummary.CalculateAggreagateFare();
+            return invoiceSummary;
         }
         static void Main(string[] args)
         {
