@@ -1,7 +1,7 @@
 ﻿///--------------------------------------------------------------------
 ///   Class:       CabInvoiceGenerator
 ///   Description: class for calculate total fare of car
-///   Author:      Pranali Andre                   Date: 1/5/2020
+///   Author:      Pranali Andre                   Date: 3/5/2020
 ///--------------------------------------------------------------------
 using System;
 
@@ -12,12 +12,14 @@ namespace cabInvoiceGenerator
         /// <summary>
         /// constant variable
         /// </summary>
-        private static int COST_PER_TIME = 1;
-        private static double MINIMUM_COST_PER_KILOMETER = 10;
+        public static int COST_PER_TIME = 1;
+        public static double MINIMUM_COST_PER_KILOMETER = 10;
         /// <summary>
         /// variable
         /// </summary>
-        private static double minimumFare = 5;
+        public static double minimumFare = 5;
+        public static double totalFare = 0;
+        public static int numberOfRides = 0;
 
         /// <summary>
         /// Method to calculate total fare journey of car
@@ -39,20 +41,30 @@ namespace cabInvoiceGenerator
         /// </summary>
         /// <param name="rides"></param>
         /// <returns></returns>
-        public InvoiceSummary CalculateFare(Ride[] rides)
+        public InvoiceSummary CalculateFare(string userId)
         {
-            double totalFare = 0;
-            int numberOfRides = 0;
+            
             InvoiceSummary invoiceSummary = new InvoiceSummary();
-            foreach (Ride ride in rides)
+            if (userId == null)
             {
-                totalFare += this.CalculateFare( ride.distance, ride.time);
-                numberOfRides++;
+                throw new ArgumentNullException(nameof(userId));
             }
-            invoiceSummary.TotalFare = totalFare;
-            invoiceSummary.TotalNumberOfRides = numberOfRides;
-            invoiceSummary.CalculateAggreagateFare();
-            return invoiceSummary;
+            if (RideRepository.userAccount.ContainsKey(userId))
+            {
+                foreach (Ride ride in RideRepository.userAccount[userId])
+                {
+                    totalFare += this.CalculateFare(ride.distance, ride.time);
+                    numberOfRides++;
+                }
+                invoiceSummary.TotalNumberOfRides = numberOfRides;
+                invoiceSummary.TotalFare = totalFare;
+                invoiceSummary.CalculateAggreagateFare();
+                return invoiceSummary;
+            }
+            else
+            {
+                throw new InvalidInputException(InvalidInputException.InvoiceGeneratorException.INVALIDUSERID, "user Id is wrong");
+            }
         }
         static void Main(string[] args)
         {

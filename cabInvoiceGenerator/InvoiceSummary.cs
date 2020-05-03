@@ -1,12 +1,8 @@
 ﻿///--------------------------------------------------------------------
 ///   Class:       InvoiceSummary
 ///   Description: Class for calculating aggregate 
-///   Author:      Pranali Andre                   Date: 1/5/2020
+///   Author:      Pranali Andre                   Date: 3/5/2020
 ///--------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace cabInvoiceGenerator
 {
     public class InvoiceSummary

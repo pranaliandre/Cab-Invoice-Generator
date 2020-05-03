@@ -1,6 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿///--------------------------------------------------------------------
+///   Class:       Ride
+///   Description: Class for ride 
+///   Author:      Pranali Andre                   Date: 3/5/2020
+///--------------------------------------------------------------------
+using System;
 namespace cabInvoiceGenerator
 {
     public class Ride
