@@ -13,15 +13,17 @@ namespace cabInvoiceGenerator
         /// </summary>
         public double distance;
         public int time;
+        public string rideType;
         /// <summary>
         /// Parameterized constructor
         /// </summary>
         /// <param name="distance"></param>
         /// <param name="time"></param>
-        public Ride(double distance,int time)
+        public Ride(string rideType,double distance, int time )
         {
             this.distance = distance;
             this.time = time;
+            this.rideType = rideType;
         }
     }
 }

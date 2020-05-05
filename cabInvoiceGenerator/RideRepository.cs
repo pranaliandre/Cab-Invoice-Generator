@@ -1,6 +1,6 @@
 ﻿///--------------------------------------------------------------------
-///   Class:       UsserAccount
-///   Description: Class for addrides 
+///   Class:       UserAccount
+///   Description: Class for ddRides 
 ///   Author:      Pranali Andre                   Date: 3/5/2020
 ///--------------------------------------------------------------------
 using System;
@@ -9,28 +9,40 @@ namespace cabInvoiceGenerator
 {
     public class RideRepository
     {
-        public static Dictionary<string, List<Ride>> userAccount = new Dictionary<string, List<Ride>>();
+        Dictionary<string, List<Ride>> userRides = new Dictionary<string, List<Ride>>();
 
-        public static void AddRides(string distance, List<Ride> Rides)
+        /// <summary>
+        /// constructor for user rides
+        /// </summary>
+        public RideRepository() { }
+        /// <summary>
+        /// Method to add rides
+        /// </summary>
+        /// <param name="userID"> User Id </param>
+        /// <param name="rides"> Rides </param>
+        /// <returns> AddRides </returns>
+        public void AddRides(string userId, Ride[] rides)
         {
-            try
+            bool ListOfRide = userRides.ContainsKey(userId);
+            //if rideList is false
+            if (ListOfRide == false)
             {
-                if (userAccount.ContainsKey(distance))
-                {
-                    foreach (Ride ride in Rides)
-                    {
-                        userAccount[distance].Add(ride);
-                    }
-                }
-                else
-                {
-                    userAccount.Add(distance, Rides);
-                }
+                //create list
+                List<Ride> list = new List<Ride>();
+                //add rides
+                list.AddRange(rides);
+                //add userId and Rides
+                userRides.Add(userId, list);
             }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception.Message);
-            }
+        }
+        /// <summary>
+        /// Method to get rides of user
+        /// </summary>
+        /// <param name="userID"> UserID </param>
+        /// <returns> GetRides </returns>
+        public Ride[] GetRides(string userId)
+        {
+            return userRides[userId].ToArray();
         }
     }
 }
