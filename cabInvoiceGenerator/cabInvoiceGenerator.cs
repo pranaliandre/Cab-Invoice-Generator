@@ -11,14 +11,14 @@ namespace cabInvoiceGenerator
         /// <summary>
         /// constant variable
         /// </summary>
-        public  int COST_PER_TIME = 1;
-        public int COST_PER_KILOMETER_NORMAL = 10;
-        public double MINIMUM_COST_PER_KILOMETER = 10;
-        public int MINIMUM_FARE_PREMIUM = 20;
-        public int COST_PER_KILOMETER_PREMIUM = 15;
-        public int COST_PER_MINUTE_PREMIUM = 2;
-        public int MINIMUM_FARE_NORMAL = 5;
-        public int COST_PER_MINUTE_NORMAL = 1;
+        public const int COST_PER_TIME = 1;
+        public const int COST_PER_KILOMETER_NORMAL = 10;
+        public const double MINIMUM_COST_PER_KILOMETER = 10;
+        public const int MINIMUM_FARE_PREMIUM = 20;
+        public const int COST_PER_KILOMETER_PREMIUM = 15;
+        public const int COST_PER_MINUTE_PREMIUM = 2;
+        public const int MINIMUM_FARE_NORMAL = 5;
+        public const int COST_PER_MINUTE_NORMAL = 1;
         /// <summary>
         /// variable
         /// </summary>

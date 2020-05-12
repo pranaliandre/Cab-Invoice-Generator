@@ -23,7 +23,6 @@ namespace cabInvoiceGeneratorTest
         [Test]
         public void GivenDistance_ShouldReturnTotalFare()
         {
-
             double distance = 2.0;
             int time = 5;
             double totalFare = invoiceGenerator.CalculateFare("normal", distance, time);
