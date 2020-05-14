@@ -3,7 +3,10 @@
 ///   Description: class for calculate total fare of car
 ///   Author:      Pranali Andre                Date: 3/5/2020
 ///--------------------------------------------------------------------
+using Remotion.Linq.Parsing;
 using System;
+using System.Transactions;
+
 namespace cabInvoiceGenerator
 {
     public class CabInvoiceGenerator
@@ -14,10 +17,10 @@ namespace cabInvoiceGenerator
         public const int COST_PER_TIME = 1;
         public const int COST_PER_KILOMETER_NORMAL = 10;
         public const double MINIMUM_COST_PER_KILOMETER = 10;
-        public const int MINIMUM_FARE_PREMIUM = 20;
+        public const int PREMIUM_FARE = 20;
         public const int COST_PER_KILOMETER_PREMIUM = 15;
         public const int COST_PER_MINUTE_PREMIUM = 2;
-        public const int MINIMUM_FARE_NORMAL = 5;
+        public const int NORMAL_FARE = 5;
         public const int COST_PER_MINUTE_NORMAL = 1;
         /// <summary>
         /// variable
@@ -33,6 +36,11 @@ namespace cabInvoiceGenerator
                 return this.averageFare;
             }
         }
+        public enum RideType
+        {
+            NORMAL,
+            PREMIUM
+        }
         /// <summary>
         /// Method to calculate total fare journey of car
         /// </summary>
@@ -42,28 +50,21 @@ namespace cabInvoiceGenerator
         /// <returns></returns>
         public double CalculateFare(string journeyType, double distance, int time)
         {
+            //calculate Total Fare for normal journey type
             if (journeyType == "normal")
             {
-                //calculate Total Fare for normal journey type
-                //if the totalfare is greater than minimum fare then return totalfare
-                if (((distance * COST_PER_KILOMETER_NORMAL) + (time * COST_PER_MINUTE_NORMAL)) > MINIMUM_FARE_NORMAL)
-                {
-                    return (distance * COST_PER_KILOMETER_NORMAL) + (time * COST_PER_MINUTE_NORMAL);
-                }
-                //if the totalfare is less than minimum fare then return totalfare
-                return MINIMUM_FARE_NORMAL;
+                //calling method for calculating normal ride
+                double NORMAL_RIDE_FARE = NormalRide(distance, time);
+                return NORMAL_RIDE_FARE;
             }
             //calculate Total Fare for premium journey type
-            //if the totalcost is greater than minimum fare then return totalfare minimumFarePremium
             if (journeyType == "premium")
             {
-                if (((distance * COST_PER_KILOMETER_PREMIUM) + (time * COST_PER_MINUTE_PREMIUM)) > MINIMUM_FARE_PREMIUM)
-                {
-                    return (distance * COST_PER_KILOMETER_PREMIUM) + (time * COST_PER_MINUTE_PREMIUM);
-                }
-                //if the totalfare is less than minimum fare then return totalfare
+                //calling method for calculating premium ride
+                double PREMIUM_RIDE_FARE = PremiumRide(distance, time);
+                return PREMIUM_RIDE_FARE;
             }
-            return MINIMUM_FARE_PREMIUM;
+            return 0;
         }
         /// <summary>
         /// Method to given multiple rides and calculate the aggregate total   
@@ -83,6 +84,66 @@ namespace cabInvoiceGenerator
             averageFare = totalFare / numberOfRides;
             //return a calculate total fare
             return totalFare;
+        }
+        //calculate Total Fare for normal journey type
+        public double NormalRide(double distance, int time)
+        {
+            try
+            {
+                if (distance < 0)
+                {
+                    throw new CabServiceException(CabServiceException.ExceptionType.ENTER_PROPER_DISTANCE, "Enter proper distance");
+                }
+                if(time < 0)
+                {
+                    throw new CabServiceException(CabServiceException.ExceptionType.ENTER_PROPER_TIME, "Enter proper time");
+                }
+                //if the totalfare is greater than minimum fare then return totalfare
+                if (((distance * COST_PER_KILOMETER_NORMAL) + (time * COST_PER_MINUTE_NORMAL)) > NORMAL_FARE)
+                {
+                    return (distance * COST_PER_KILOMETER_NORMAL) + (time * COST_PER_MINUTE_NORMAL);
+                }
+                //if the totalfare is less than minimum fare then return normal fare
+                return NORMAL_FARE;
+            }
+            catch (CabServiceException)
+            {
+                throw;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+        //calculate Total Fare for premium journey type
+        public double PremiumRide(double distance, int time)
+        {
+            try
+            {
+                if (distance < 0)
+                {
+                    throw new CabServiceException(CabServiceException.ExceptionType.ENTER_PROPER_DISTANCE, "Enter proper distance");
+                }
+                if (time < 0)
+                {
+                    throw new CabServiceException(CabServiceException.ExceptionType.ENTER_PROPER_TIME, "Enter proper time");
+                }
+                //if the totalfare is greater than minimum fare then return totalfare
+                if (((distance * COST_PER_KILOMETER_PREMIUM) + (time * COST_PER_MINUTE_PREMIUM)) > PREMIUM_FARE)
+                {
+                    return (distance * COST_PER_KILOMETER_PREMIUM) + (time * COST_PER_MINUTE_PREMIUM);
+                }
+                //if the totalfare is less than minimum fare then return premium fare
+                return PREMIUM_FARE;
+            }
+            catch (CabServiceException)
+            {
+                throw;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
         }
         /// <summary>
         /// Main function

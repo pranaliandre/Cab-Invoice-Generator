@@ -8,7 +8,9 @@ namespace cabInvoiceGenerator
     {
         public enum ExceptionType
         {
-            ENTER_PROPER_DISTANCE, ENTER_PROPER_TIME,
+            ENTER_PROPER_DISTANCE,
+            ENTER_PROPER_RIDE_TYPE,
+            ENTER_PROPER_TIME,
             ENTER_PROPER_INPUT
         }
         public ExceptionType type;

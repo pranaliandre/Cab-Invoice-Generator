@@ -29,7 +29,42 @@ namespace cabInvoiceGeneratorTest
             Assert.AreEqual(expected: 25, totalFare, delta: 0.0);
         }
         /// <summary>
-        /// UC-2: Test case to calculate aggregate fare for multiple Rides
+        /// UC-2 Test case for given distance is less than 0 throw exception
+        /// </summary>
+        [Test]
+        public void GivenDistanceWrong_WhenCheck_ShouldThrowException()
+        {
+            try
+            {
+                double distance = -2.0;
+                int time = 5;
+                double totalFare = invoiceGenerator.CalculateFare("normal", distance, time);
+                Assert.AreEqual(expected: 25, totalFare, delta: 0.0);
+            }catch(CabServiceException e)
+            {
+                Assert.AreEqual("Enter proper distance", e.Message);
+            }
+        }
+        /// <summary>
+        ///  UC-3 Test case for given time is less than 0 throw exception
+        /// </summary>
+        [Test]
+        public void GivenTimeWrong_WhenCheck_ShouldThrowException()
+        {
+            try
+            {
+                double distance = 2.0;
+                int time = -55;
+                double totalFare = invoiceGenerator.CalculateFare("normal", distance, time);
+                Assert.AreEqual(expected: 25, totalFare, delta: 0.0);
+            }
+            catch (CabServiceException e)
+            {
+                Assert.AreEqual("Enter proper time", e.Message);
+            }
+        }
+        /// <summary>
+        /// UC-4: Test case to calculate aggregate fare for multiple Rides
         /// </summary>
         [Test]
         public void GivenDistanceAndTime_whenTakeMultipleRides_ReturnCalculateAggregateTotal()
@@ -41,9 +76,9 @@ namespace cabInvoiceGeneratorTest
             double totalFare = invoiceGenerator.CalculateFare(ride);
             Assert.AreEqual(30, totalFare,delta: 0.0);
         }
-
+       
         /// <summary>
-        /// UC-3: Test case to calculate total fare, no. of rides ,average
+        /// UC-5: Test case to calculate total fare, no. of rides ,average
         /// </summary>
         [Test]
         public void GivenDistanceAndTime_whenTakeMultipleRides_ReturnEnhancedInVoice()
@@ -60,7 +95,7 @@ namespace cabInvoiceGeneratorTest
             Assert.AreEqual(30, averageFare,delta:0.0);
         }
         /// <summary>
-        /// UC-4: Test case to give userId and calculate total fare of normal ride.
+        /// UC-6: Test case to give userId and calculate total fare of normal ride.
         /// </summary>
         [Test]
         public void GivenUserId_InvoiceServiceGetsListOfRidesFromRideRepository_ReturnInvoice()
@@ -76,7 +111,7 @@ namespace cabInvoiceGeneratorTest
             Assert.AreEqual(90, totalFare,0.0);
         }
         /// <summary>
-        /// UC-5: Test case for 2 categories of rides normal and premium and calculate the total fare
+        /// UC-7: Test case for 2 categories of rides normal and premium and calculate the total fare
         /// </summary>
         [Test]
         public void GivenUserId_whenNormalandPremiumJourney_ReturnTotalFare()
